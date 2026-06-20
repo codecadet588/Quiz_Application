@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        h1:hover {
+            color: #3498db; /* Interactive color on hover */
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #34495e;
+            margin-bottom: 20px;
+            font-weight: bold;
+            animation: fadeIn 2s ease-in-out;
+            transition: color 0.3s ease;
+        }
+
+        h2:hover {
+            color: #e74c3c; /* Interactive color on hover */
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #16a085;
+            transition: color 0.3s ease-in-out;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+
+        .score:hover {
+            color: #2980b9; /* Interactive color on hover */
+        }
+
+        .performance {
+            font-size: 24px;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .performance:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        .excellent {
+            color: #27ae60;
+            background: #d4f4db;
+            box-shadow: 0px 5px 15px rgba(39, 174, 96, 0.2);
+        }
+
+        .good {
+            color: #3498db;
+            background: #d0eaff;
+            box-shadow: 0px 5px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .average {
+            color: #f39c12;
+            background: #fdf5d5;
+            box-shadow: 0px 5px 15px rgba(243, 156, 18, 0.2);
+        }
+
+        .poor {
+            color: #e74c3c;
+            background: #f8d7da;
+            box-shadow: 0px 5px 15px rgba(231, 76, 60, 0.2);
+        }
+
+        .percentage {
+            font-size: 32px;
+            color: #2ecc71;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+            animation: fadeIn 3.5s ease-in-out;
+        }
+
+        .percentage:hover {
+            transform: scale(1.1);
+            color: #2980b9; /* Interactive color on hover */
+        }
+
+        /* FadeIn animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button Styling */
+        .btn {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(45deg, #4e05b5, #32844a); /* Gradient background */
+            color: white;
+            text-decoration: none;  /* Remove underline */
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        /* Hover and Active Effects for Button */
+        .btn:hover {
+            background: linear-gradient(45deg, #a0ac65, #9c38c7); /* Reversed gradient for hover effect */
+            transform: translateY(-3px); /* Button moves up when hovered */
+            box-shadow: 0px 8px 16px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(2px); /* Button presses down slightly */
+            box-shadow: 0px 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Smooth transition on hover */
+        .performance, .score, .percentage {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+         /* Styling for the interactive button */
+         .btn {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(45deg, #4e05b5, #32844a); /* Gradient background */
+            color: white;
+            text-decoration: none;  /* Remove underline */
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        /* Hover and Active Effects for Button */
+        .btn:hover {
+            background: linear-gradient(45deg, #a0ac65, #9c38c7); /* Reversed gradient for hover effect */
+            transform: translateY(-3px); /* Button moves up when hovered */
+            box-shadow: 0px 8px 16px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(2px); /* Button presses down slightly */
+            box-shadow: 0px 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quiz Completed</h1>
+        <h2 style="color:blue"><strong>{{name}}, you scored :  {{score}}/{{questions_list | length}}</strong></h2>
+
+        {% set percentage = percentage %}
+
+         <p class="score">Percentage : {{percentage | int}}%</p>
+
+        {% if percentage >= 80 %}
+            <p class="performance excellent">Excellent! 🎉</p>
+        {% elif percentage >=60 %}
+            <p class="performance good">Good Job! 😊</p>
+        {% elif percentage >=40 %}
+            <p class="performance average">You Can Improve! 🔄</p>
+        {% else %}
+            <p class="performance poor">Better Luck Next Time! 😔</p>
+        {% endif %}
+
+        <br>
+
+        
+        <a href="/Previous_records" class="btn">Previous Record</a>
+        
+
+        <a href="/" class="btn">Go Back to Quiz</a>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Start</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .question-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            display: none;  /* Hide all questions initially */
+        }
+
+        .option {
+            display: block;
+            padding: 10px;
+            background: #eaeaea;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background: #d4d4d4;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        input[type="radio"]:checked + span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .next-btn, #submit-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .next-btn:hover, #submit-btn:hover {
+            background: #0056b3;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Welcome {{name}}</h1>
+        <form action="/submitquiz" method="post" id="quiz-form">
+
+            {% for question in questions_list %}
+
+            <div id="question{{ loop.index }}" class="question-container">
+                <p><strong>{{loop.index}}. {{question['question']}}</strong></p>
+
+                {% set question_num = loop.index %}
+                {% for choice in question['choices'] %}
+                    <label class="option">
+                        <input type="radio" name="q{{question_num}}" value="{{choice}}" required>
+                        <span>{{choice}}</span>
+                    </label>
+                {% endfor %}
+
+                <p id="error-q{{question_num}}" class="error-message">Please select an option before proceeding.</p>
+
+                {% if not loop.last %}
+                    <button type="button" class="next-btn" onclick="validateAndProceed({{question_num}})">Next</button>
+                {% else %}
+                    <button type="button" class="next-btn" onclick="validateAndSubmit({{question_num}})">Submit Quiz</button>
+                {% endif %}
+            </div>
+
+            {% endfor %}
+           
+        </form>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        document.getElementById(`question${currentQuestion}`).style.display = "block";
+        
+        function validateAndProceed(questionNumber) {
+            // Check if an option is selected
+            let selectedOption = document.querySelector(`input[name="q${questionNumber}"]:checked`);
+            let errorMessage = document.getElementById(`error-q${questionNumber}`);
+            
+            if (!selectedOption) {
+                // Show error message
+                errorMessage.style.display = "block";
+                return false;
+            }
+            
+            // Hide error message if it was shown
+            errorMessage.style.display = "none";
+            
+            // Proceed to next question
+            document.getElementById(`question${currentQuestion}`).style.display = "none";
+            currentQuestion++;
+            document.getElementById(`question${currentQuestion}`).style.display = "block";
+        }
+        
+        function validateAndSubmit(questionNumber) {
+            // Check if an option is selected for the last question
+            let selectedOption = document.querySelector(`input[name="q${questionNumber}"]:checked`);
+            let errorMessage = document.getElementById(`error-q${questionNumber}`);
+            
+            if (!selectedOption) {
+                // Show error message
+                errorMessage.style.display = "block";
+                return false;
+            }
+            
+            // Submit the form
+            document.getElementById("quiz-form").submit();
+        }
+    </script>
+    
+</body>
+</html>
